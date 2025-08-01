@@ -27,6 +27,8 @@
     <!-- App CSS -->
     <link rel="stylesheet" href="{{ asset('css/app-light.css') }}" id="lightTheme">
     <link rel="stylesheet" href="{{ asset('css/app-dark.css') }}" id="darkTheme" disabled>
+    @include('sweetalert2::index')
+    @stack('styles')
 </head>
 
 <body class="vertical  light  ">
@@ -34,8 +36,9 @@
         <x-header></x-header>
         <x-sidebar></x-sidebar>
 
+        <!-- start main -->
         {{ $slot }}
-        <!-- main -->
+        <!-- end main -->
     </div> <!-- .wrapper -->
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/popper.min.js') }}"></script>
@@ -252,6 +255,8 @@
         gtag('js', new Date());
         gtag('config', 'UA-56159088-1');
     </script>
+
+    @stack('scripts')
 </body>
 
 </html>
