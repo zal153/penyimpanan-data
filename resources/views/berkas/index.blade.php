@@ -3,6 +3,8 @@
         <link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap4.css') }}">
     @endpush
 
+    <x-alert />
+
     <main role="main" class="main-content">
         <div class="container-fluid">
             <div class="row justify-content-center">
@@ -51,10 +53,12 @@
                                                                 data-target="#detailModal{{ $item->id }}">
                                                                 <i class="fe fe-eye fe-12 mr-2"></i>Detail
                                                             </a>
-                                                            <a class="dropdown-item" href="#">
-                                                                <i class="fe fe-edit fe-12 mr-2"></i>Backup
+                                                            <a class="dropdown-item" href="#"
+                                                                onclick="confirmBackup({{ $item->id }}, '{{ $item->judul }}')">
+                                                                <i class="fe fe-save fe-12 mr-2"></i>Backup
                                                             </a>
-                                                            <a class="dropdown-item text-danger" href="#">
+                                                            <a class="dropdown-item text-danger" href="#"
+                                                                onclick="confirmDelete({{ $item->id }}, '{{ $item->judul }}')">
                                                                 <i class="fe fe-trash fe-12 mr-2"></i>Hapus
                                                             </a>
                                                         </div>
@@ -103,6 +107,20 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                <!-- Tambahkan form untuk backup dan delete -->
+                                                <form id="backup-form-{{ $item->id }}"
+                                                    action="{{ route('admin.berkas.backup', $item->id) }}"
+                                                    method="POST" style="display: none;">
+                                                    @csrf
+                                                </form>
+
+                                                <form id="delete-form-{{ $item->id }}"
+                                                    action="{{ route('admin.berkas.destroy', $item->id) }}"
+                                                    method="POST" style="display: none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
                                             @empty
                                                 <tr>
                                                     <td colspan="8" class="text-center">Tidak ada data berkas yang
@@ -131,6 +149,40 @@
                     [16, 32, 64, "All"]
                 ]
             });
+
+            function confirmBackup(berkasId, berkasTitle) {
+                Swal.fire({
+                    title: 'Backup Berkas',
+                    text: `Apakah Anda yakin ingin membackup berkas "${berkasTitle}"?`,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, backup!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById(`backup-form-${berkasId}`).submit();
+                    }
+                });
+            }
+
+            function confirmDelete(berkasId, berkasTitle) {
+                Swal.fire({
+                    title: 'Hapus Berkas',
+                    text: `Apakah Anda yakin ingin menghapus berkas "${berkasTitle}"?`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById(`delete-form-${berkasId}`).submit();
+                    }
+                });
+            }
         </script>
     @endpush
 </x-app>

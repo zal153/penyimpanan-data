@@ -26,13 +26,13 @@
             <a class="nav-link dropdown-toggle text-muted pr-0" href="#" id="navbarDropdownMenuLink"
                 role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="avatar avatar-sm mt-2">
-                    <img src="./assets/avatars/face-1.jpg" alt="Avatar" class="avatar-img rounded-circle">
+                    <img src="{{ asset('assets/avatars/face-1.jpg') }}" alt="Avatar" class="avatar-img rounded-circle">
                 </span>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                 <div class="dropdown-item text-muted">
-                    <small>John Doe</small><br>
-                    <small>john@example.com</small>
+                    <small>{{ auth()->user()->name }}</small><br>
+                    <small>{{ auth()->user()->email }}</small>
                 </div>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">
@@ -42,9 +42,13 @@
                     <i class="fe fe-settings fe-12 mr-2"></i>Pengaturan
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item text-danger" href="#">
-                    <i class="fe fe-log-out fe-12 mr-2"></i>Keluar
+                <a class="dropdown-item text-danger" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fe fe-log-out fe-12 mr-2"></i>Log Out
                 </a>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
             </div>
         </li>
     </ul>

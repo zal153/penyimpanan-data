@@ -27,6 +27,7 @@
     <!-- App CSS -->
     <link rel="stylesheet" href="{{ asset('css/app-light.css') }}" id="lightTheme">
     <link rel="stylesheet" href="{{ asset('css/app-dark.css') }}" id="darkTheme" disabled>
+    @livewireStyles
     @include('sweetalert2::index')
     @stack('styles')
 </head>
@@ -72,6 +73,7 @@
     <script src='{{ asset('js/dropzone.min.js') }}'></script>
     <script src='{{ asset('js/uppy.min.js') }}'></script>
     <script src='{{ asset('js/quill.min.js') }}'></script>
+    <script src="{{ asset('js/sweetalert2@11.js') }}"></script>
     <script>
         $('.select2').select2({
             theme: 'bootstrap4',
@@ -256,6 +258,7 @@
         gtag('config', 'UA-56159088-1');
     </script>
 
+    @livewireScripts
     @stack('scripts')
 </body>
 

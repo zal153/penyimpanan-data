@@ -58,18 +58,19 @@ class LoginController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6|confirmed',
-            'password_confirmation' => 'required'
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
         $user = User::create([
+            'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
-            'role' => 'user'
+            'role' => 'user',
+            'active' => true,
+            'email_verified_at' => now(),
         ]);
-
-        Auth::login($user);
 
         Swal::success([
             'title' => 'Registrasi berhasil!',
